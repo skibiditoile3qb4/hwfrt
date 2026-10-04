@@ -1,0 +1,24 @@
+# ============================================================
+# Render blueprint — deploys Stormfall Isle as a Web Service
+# (needs to be a Web Service, NOT a Static Site, because the
+# multiplayer relay runs over WebSockets.)
+#
+# Use: push this repo to GitHub, then in Render choose
+# "New +" -> "Blueprint" and point it at the repo.
+# ============================================================
+services:
+  - type: web
+    name: stormfall-isle
+    runtime: node
+    plan: free
+    region: oregon          # pick the region closest to your players
+    branch: main
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    healthCheckPath: /healthz
+    autoDeploy: true
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: NODE_ENV
+        value: production
