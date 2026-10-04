@@ -36,8 +36,9 @@ app.get("/stats", (_req, res) =>
   res.json({ online: clients.size, queued: queue.length, rooms: rooms.size })
 );
 
-// SPA fallback
-app.get("*", (_req, res) => res.sendFile(join(__dirname, "dist", "index.html")));
+app.get("/{*splat}", (_req, res) =>
+  res.sendFile(join(__dirname, "dist", "index.html"))
+);
 
 const server = createServer(app);
 const wss = new WebSocketServer({ server, path: "/ws" });
